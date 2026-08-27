@@ -22,7 +22,7 @@ $dotenv->load();
 
 include_once 'Globals.php';
 
-if(env('debug','false') == 'true'){
+if(env('DEBUG','false') == 'true'){
     $whoops = new \Whoops\Run();
     $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
     $whoops->register();

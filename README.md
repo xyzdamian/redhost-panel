@@ -1,9 +1,13 @@
-# RED-Host Panel
+# RED-Host Panel 
 
 We are currently working on major updates for this software. Accordingly, we have integrated a new theme, extended the range of functions and fixed some bugs. There is a continuous further development here, but there is also the original with some bug fixes - to be found under old-original (Branch).
 
+## Status
+![Status:](https://img.shields.io/badge/Status%3A-In%20Development-cf222e)
+
+
 ## Installation
--
+
 
 ## Upgrading
 

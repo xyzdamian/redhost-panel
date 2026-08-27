@@ -21,14 +21,21 @@ class helper extends Controller {
 
     public static function protect($string): string
     {
-        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+        $string = htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+
+        $string = str_replace('<', '', $string);
+        $string = str_replace('>', '', $string);
+        $string = str_replace('´', '', $string);
+        $string = str_replace('[', '(', $string);
+        $string = str_replace(']', ')', $string);
+        $string = str_replace("'", '', $string);
+
+        return $string;
     }
-
-
 
     public static function timeAgo($timestamp): string
     {
-        $time = strtotime($datetime);
+        $time = strtotime($timestamp);
         $diff = time() - $time;
 
         if ($diff < 60) return 'gerade eben';

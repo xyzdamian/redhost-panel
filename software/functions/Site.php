@@ -23,4 +23,19 @@ class site extends Controller {
         return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")."://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     }
 
+    public function getWelcomeText($time){
+        if($time >= 5 && $time <= 10){
+            return '🌄 Guten Morgen';
+        } elseif($time >= 10 && $time <= 12) {
+            return '☀️ Guten Vormittag';
+        } elseif($time >= 12 && $time <= 16) {
+            return '🌞 Guten Mittag';
+        } elseif($time >= 16 && $time <= 23) {
+            return '🌇 Guten Abend';
+        } elseif($time >= 23 || $time >= 0 && $time <= 5) {
+            return '💤 Gute Nacht';
+        } else {
+            return 'Uhrzeit konnte nicht erfasst werden';
+        }
+    }
 }

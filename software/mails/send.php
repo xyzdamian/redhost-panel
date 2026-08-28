@@ -17,7 +17,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-function sendMail($user_email, $user_name, $mailContent, $mailSubject) {
+function sendMail($user_email, $user_name, $mailContent, $mailSubject, $emailAltBody = '') {
     $mail = new PHPMailer(true);
     try {
         $mail->SMTPDebug = true;
@@ -36,6 +36,7 @@ function sendMail($user_email, $user_name, $mailContent, $mailSubject) {
         $mail->CharSet = 'utf-8';
         $mail->isHTML(true);
         $mail->Subject = $mailSubject;
+        $mail->AltBody = $emailAltBody;
         $mail->Body = $mailContent;
 
         $mail->send();
@@ -44,4 +45,18 @@ function sendMail($user_email, $user_name, $mailContent, $mailSubject) {
         return 'abc';
         return 'Message could not be sent. Mailer Error: '.$mail->ErrorInfo;
     }
+}
+
+function sendMailByTemplate($user_email, $user_name, $templateName, $data = []) {
+    $templateFile = __DIR__ . '/templates/auth/' . $templateName . '.php';
+
+    if (!file_exists($templateFile)) {
+        return 'Template nicht gefunden: ' . $templateName;
+    }
+
+    require $templateFile;
+
+    $mail = template($data);
+
+    return sendMail($user_email, $user_name, $mail['html'], $mail['subject'], $mail['alt']);
 }

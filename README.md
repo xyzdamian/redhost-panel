@@ -5,12 +5,15 @@ We are currently working on major updates for this software. Accordingly, we hav
 ## Status
 ![Status:](https://img.shields.io/badge/Status%3A-In%20Development-cf222e)
 
-
 ## Installation
 
 
 ## Upgrading
 
+
+## Support
+ 
+- Discord Server: [Click here](https://discord.gg/8qcqveTHSh)
 
 ## Contributing
 

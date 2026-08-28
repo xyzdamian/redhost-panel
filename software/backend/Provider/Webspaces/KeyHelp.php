@@ -6,17 +6,17 @@
  *  * Made in Koblenz with-&hearts; by Damian Schönberger
  *  *
  *  * @project     v2
- *  * @file        User.php
+ *  * @file        KeyHelp.php
  *  * @author      Damian Schönberger (xyzdamian)
  *  * @site        www.schleyer-edv.de
  *  * @date        28.8.2026
- *  * @time        0:29
+ *  * @time        15:35
  *
  */
 
 
-$user = new User();
+$keyhelp = new KeyHelp();
 
-class user extends Controller {
+class keyhelp extends Controller {
 
-} 
+}

@@ -23,7 +23,8 @@ class site extends Controller {
         return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")."://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     }
 
-    public function getWelcomeText($time){
+    public function getWelcomeText($time): string
+    {
         if($time >= 5 && $time <= 10){
             return '🌄 Guten Morgen';
         } elseif($time >= 10 && $time <= 12) {

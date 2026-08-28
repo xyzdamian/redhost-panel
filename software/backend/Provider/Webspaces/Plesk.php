@@ -6,17 +6,17 @@
  *  * Made in Koblenz with-&hearts; by Damian Schönberger
  *  *
  *  * @project     v2
- *  * @file        User.php
+ *  * @file        Plesk.php
  *  * @author      Damian Schönberger (xyzdamian)
  *  * @site        www.schleyer-edv.de
  *  * @date        28.8.2026
- *  * @time        0:29
+ *  * @time        17:14
  *
  */
 
 
-$user = new User();
+$plesk = new Plesk();
 
-class user extends Controller {
+class plesk extends Controller {
 
-} 
+}

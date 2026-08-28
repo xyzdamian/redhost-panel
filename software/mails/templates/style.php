@@ -20,13 +20,23 @@ $mailImpressum   = env('MAIL_IMPRESSUM_URL') ?: '';
 $mailAGB         = env('MAIL_AGB_URL') ?: '';
 $mailDatenschutz = env('MAIL_DATENSCHUTZ_URL') ?: '';
 
-function mailTemplate($contentFile, $title = '', $variables = []): string
+/**
+ * Baut den E-Mail-Body aus einem Satz von Variablen.
+ *
+ * Verfügbare Variablen (Platzhalter im Inhalts-String):
+ *  - TITEL     : Überschrift
+ *  - KICKER    : kleine rote Oberzeile (z.B. "Sicherheitshinweis")
+ *  - INHALT    : Fließtext (Absätze mit \n getrennt)
+ *  - CTA_LINK  : optionaler Button-Link
+ *  - CTA_TEXT  : Button-Beschriftung (bei CTA_LINK erforderlich)
+ *  - NOTIZ     : optionaler grauer Hinweistext unten
+ *  - CODE      : optionaler großer Verifizierungscode (grauer Kasten)
+ */
+function mailTemplate($content, $title = '', $variables = []): string
 {
     global $mailProjectName, $mailLogoUrl, $mailImpressum, $mailAGB, $mailDatenschutz;
 
-    ob_start();
-    include __DIR__ . '/' . $contentFile;
-    $content = ob_get_clean();
+    $variables['PROJEKT_NAME'] = $mailProjectName;
 
     foreach ($variables as $key => $value) {
         $content = str_replace('[' . strtoupper($key) . ']', $value, $content);
@@ -63,7 +73,64 @@ function mailTemplate($contentFile, $title = '', $variables = []): string
                     </td>
                 </tr>
 
-                ' . $content . '
+                <!-- Body -->
+                <tr>
+                    <td style="padding:32px 40px 16px;">
+                        ' . ($variables['KICKER'] !== '' ? '<p style="margin:0 0 8px; font-size:11px; letter-spacing:1px; color:#cc0000; font-weight:bold; text-transform:uppercase;">' . $variables['KICKER'] . '</p>' : '') . '
+                        <h1 style="margin:0 0 20px; font-size:20px; line-height:1.35; color:#1a1a1a; font-weight:bold;">
+                            ' . $variables['TITEL'] . '
+                        </h1>
+                        ' . nl2br($variables['INHALT']) . '
+                    </td>
+                </tr>
+
+                <!-- Verify code -->
+                ' . ($variables['CODE'] !== '' ? '
+                <tr>
+                    <td style="padding:20px 40px 0;">
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f7f7f7; border:1px solid #dddddd; border-radius:8px;">
+                            <tr>
+                                <td align="center" style="padding:24px; font-size:28px; letter-spacing:4px; font-weight:bold; color:#1a1a1a;">
+                                    ' . $variables['CODE'] . '
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>' : '') . '
+
+                <!-- CTA button -->
+                ' . ($variables['CTA_LINK'] !== '' && $variables['CTA_TEXT'] !== '' ? '
+                <tr>
+                    <td style="padding:8px 40px 0;">
+                        <table role="presentation" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="background-color:#cc0000; border-radius:6px;">
+                                    <a href="' . $variables['CTA_LINK'] . '" style="display:inline-block; padding:12px 28px; font-size:14px; font-weight:bold; color:#ffffff; text-decoration:none; border-radius:6px;">
+                                        ' . $variables['CTA_TEXT'] . '
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>' : '') . '
+
+                <!-- Note -->
+                ' . ($variables['NOTIZ'] !== '' ? '
+                <tr>
+                    <td style="padding:20px 40px 0;">
+                        <p style="margin:0; font-size:13px; color:#777777; line-height:1.65;">
+                            ' . $variables['NOTIZ'] . '
+                        </p>
+                    </td>
+                </tr>' : '') . '
+
+                <tr>
+                    <td style="padding:28px 40px 36px;">
+                        <p style="margin:0; font-size:14px; color:#333333;">
+                            Team [PROJEKT_NAME]
+                        </p>
+                    </td>
+                </tr>
 
                 <!-- Footer -->
                 <tr>
@@ -89,15 +156,25 @@ function mailTemplate($contentFile, $title = '', $variables = []): string
 </html>';
 }
 
-function mailBuild($snippetFile, $subject, $altBody, $variables = []): array
+/**
+ * Baut eine fertige E-Mail aus Betreff, Klartext und Variablen.
+ * $variables = ['TITEL' =>, 'KICKER' =>, 'INHALT' =>, 'CTA_LINK' =>, 'CTA_TEXT' =>, 'NOTIZ' =>, ...]
+ */
+function mailBuild($subject, $altBody, $variables = []): array
 {
-    global $mailProjectName;
-
-    $variables['PROJEKT_NAME'] = $mailProjectName;
+    $variables += [
+        'TITEL'    => '',
+        'KICKER'   => '',
+        'INHALT'   => '',
+        'CTA_LINK' => '',
+        'CTA_TEXT' => '',
+        'NOTIZ'    => '',
+        'CODE'     => '',
+    ];
 
     return [
         'subject' => $subject,
         'alt'     => $altBody,
-        'html'    => mailTemplate($snippetFile, $subject, $variables),
+        'html'    => mailTemplate('', $subject, $variables),
     ];
 }

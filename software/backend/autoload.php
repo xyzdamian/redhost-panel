@@ -16,8 +16,12 @@
 
 include_once BASE_PATH . 'software/controller/Controller.php';
 
-foreach (glob('../software/backend/*.php') as $item) {
+foreach (glob(BASE_PATH . 'software/backend/*.php') as $item) {
     if($item != 'autoload.php') {
         include_once $item;
     }
+}
+
+foreach (glob(BASE_PATH . 'software/backend/*/*.php') as $item) {
+    include_once $item;
 }

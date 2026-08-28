@@ -18,11 +18,17 @@ require __DIR__ . '/../style.php';
 
 function template($data): array
 {
-    $subject = 'Bitte bestätigen Sie Ihre E-Mail-Adresse';
-
     $altBody = 'Ihr Bestätigungscode: ' . $data['verify_code'] . "\r\n";
 
-    return mailBuild('auth/snippets/confirm_account_body.php', $subject, $altBody, [
-            'BESTAETIGUNGS_CODE' => $data['verify_code'],
-    ]);
+    return mailBuild(
+        'Bitte bestätigen Sie Ihre E-Mail-Adresse',
+        $altBody,
+        [
+            'KICKER' => 'Konto-Erstellung',
+            'TITEL'  => 'Bestätigen Sie Ihre E-Mail-Adresse',
+            'INHALT' => 'Guten Tag, bitte verwenden Sie den folgenden Code, um die Registrierung Ihres Kontos abzuschließen:',
+            'CODE'   => $data['verify_code'],
+            'NOTIZ'  => 'Der Code ist 30 Minuten gültig. Sollten Sie diese E-Mail nicht angefordert haben, ignorieren Sie sie bitte.',
+        ]
+    );
 }

@@ -18,8 +18,6 @@ require __DIR__ . '/../style.php';
 
 function template($data): array
 {
-    $subject = 'Neue Anmeldung erkannt';
-
     $altBody = 'Guten Tag ' . $data['user_name'] . ",\r\n"
         . 'wir haben eine neue Anmeldung bei Ihrem Konto registriert.' . "\r\n"
         . 'Zeitpunkt: ' . $data['login_time'] . "\r\n"
@@ -28,12 +26,22 @@ function template($data): array
         . 'IP-Adresse: ' . $data['login_ip'] . "\r\n\r\n"
         . 'Falls Sie das nicht waren: ' . $data['password_reset_link'] . "\r\n";
 
-    return mailBuild('auth/snippets/new-login_body.php', $subject, $altBody, [
-        'VORNAME'               => $data['user_name'],
-        'ZEITPUNKT'             => $data['login_time'],
-        'GERAET'                => $data['login_device'],
-        'STANDORT'              => $data['login_location'],
-        'IP_ADRESSE'            => $data['login_ip'],
-        'PASSWORT_AENDERN_LINK' => $data['password_reset_link'],
-    ]);
+    $inhalt = 'wir haben eine neue Anmeldung bei Ihrem Konto registriert. Die Angaben zu dieser Sitzung finden Sie in der folgenden Übersicht:';
+
+    return mailBuild(
+        'Neue Anmeldung erkannt',
+        $altBody,
+        [
+            'KICKER'   => 'Sicherheitshinweis',
+            'TITEL'    => 'Neue Anmeldung erkannt',
+            'INHALT'   => 'Guten Tag ' . $data['user_name'] . ',' . "\n" . $inhalt
+                . "\n\n" . 'Zeitpunkt: ' . $data['login_time']
+                . "\n" . 'Gerät: ' . $data['login_device']
+                . "\n" . 'Standort: ' . $data['login_location']
+                . "\n" . 'IP-Adresse: ' . $data['login_ip'],
+            'CTA_LINK' => $data['password_reset_link'],
+            'CTA_TEXT' => 'Passwort ändern',
+            'NOTIZ'    => 'Wir empfehlen Ihnen außerdem, die Zwei-Faktor-Authentifizierung (2FA) zu aktivieren, um die Sicherheit Ihres Kontos zu erhöhen.',
+        ]
+    );
 }

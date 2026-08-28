@@ -20,7 +20,7 @@ use PHPMailer\PHPMailer\Exception;
 function sendMail($user_email, $user_name, $mailContent, $mailSubject, $emailAltBody = '') {
     $mail = new PHPMailer(true);
     try {
-        $mail->SMTPDebug = true;
+        $mail->SMTPDebug = env('MAIL_SMTP_DEBUG') ?: 0;
         $mail->isSMTP();
         $mail->SMTPAuth = true;
         $mail->Host = env('MAIL_HOST');
@@ -42,7 +42,6 @@ function sendMail($user_email, $user_name, $mailContent, $mailSubject, $emailAlt
         $mail->send();
         return true;
     } catch (Exception $e) {
-        return 'abc';
         return 'Message could not be sent. Mailer Error: '.$mail->ErrorInfo;
     }
 }

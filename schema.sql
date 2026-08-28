@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 28. Aug 2026 um 15:31
+-- Erstellungszeit: 28. Aug 2026 um 20:26
 -- Server-Version: 11.8.6-MariaDB-0+deb13u1 from Debian
 -- PHP-Version: 8.4.24
 
@@ -18,8 +18,46 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `redhost-v2`
+-- Datenbank: `domain2582557_db7`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `ipv4_addresses`
+--
+
+CREATE TABLE `ipv4_addresses` (
+  `id` varchar(255) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `gateway` varchar(15) NOT NULL,
+  `prefix` tinyint(3) UNSIGNED NOT NULL DEFAULT 24,
+  `vlan` int(10) UNSIGNED DEFAULT NULL,
+  `node_id` int(11) UNSIGNED DEFAULT NULL,
+  `service` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) UNSIGNED NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `ipv6_addresses`
+--
+
+CREATE TABLE `ipv6_addresses` (
+  `id` varchar(255) NOT NULL,
+  `ip` varchar(45) NOT NULL,
+  `gateway` varchar(45) NOT NULL,
+  `prefix` int(10) UNSIGNED NOT NULL DEFAULT 64,
+  `vlan` int(10) UNSIGNED DEFAULT NULL,
+  `node_id` int(255) UNSIGNED DEFAULT NULL,
+  `service` varchar(36) DEFAULT NULL,
+  `active` tinyint(1) UNSIGNED NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 

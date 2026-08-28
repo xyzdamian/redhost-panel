@@ -22,7 +22,7 @@ if (!function_exists('sendError')) {
     function sendError($message, $title = _ALERT_ERROR)
     {
         return '<script>toastr.options = { "closeButton": false,
-        "debug": false,
+        "DEBUG": false,
         "newestOnTop": true,
         "progressBar": false,
         "positionClass": "toast-top-right",
@@ -45,7 +45,7 @@ if (!function_exists('sendInfo')) {
     {
         return '<script>toastr.options = { 
     "closeButton": false,
-        "debug": false,
+        "DEBUG": false,
         "newestOnTop": true,
         "progressBar": false,
         "positionClass": "toast-top-right",
@@ -68,7 +68,7 @@ if (!function_exists('sendSuccess')) {
     function sendSuccess($message, $title = _ALERT_SUCCESS)
     {
         return '<script>toastr.options = { "closeButton": false,
-        "debug": false,
+        "DEBUG": false,
         "newestOnTop": true,
         "progressBar": false,
         "positionClass": "toast-top-right",
@@ -90,7 +90,7 @@ if (!function_exists('sendWarning')) {
     function sendWarning($message, $title = _ALERT_WARNING)
     {
         return '<script>toastr.options = { "closeButton": false,
-        "debug": false,
+        "DEBUG": false,
         "newestOnTop": true,
         "progressBar": false,
         "positionClass": "toast-top-right",

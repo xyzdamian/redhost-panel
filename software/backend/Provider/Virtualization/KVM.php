@@ -21,7 +21,8 @@ $kvm = new KVM();
 
 class kvm extends Controller {
 
-    public function getServerCredentials($nodeid): array {
+    public function getServerCredentials($nodeid): array
+    {
         $stmt = self::db()->prepare('SELECT * FROM nodes WHERE id = :nodeid LIMIT 1');
         $stmt->execute([':nodeid' => $nodeid]);
 
@@ -29,4 +30,27 @@ class kvm extends Controller {
 
         return $row ?: [];
     }
+
+    public function getIPv4($vmid): array
+    {
+        $stmt = self::db()->prepare('SELECT * FROM ipv4_adresses WHERE service = :vid LIMIT 1');
+        $stmt->execute([':vid' => $vmid]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row ?: [];
+    }
+
+    public function getIPv6($vmid): array
+    {
+        $stmt = self::db()->prepare('SELECT * FROM ipv6_adresses WHERE service = :vid LIMIT 1');
+        $stmt->execute([':vid' => $vmid]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row ?: [];
+    }
+
+
+
 }

@@ -6,22 +6,12 @@
  *  * Made in Koblenz with ♥ by Damian Schönberger
  *  *
  *  * @project     RED-Host v2
- *  * @file        UUID.php
+ *  * @file        overview.php
  *  * @author      Damian Schönberger (xyzdamian)
  *  * @site        www.schleyer-edv.de
  *  * @date        28.8.2026
- *  * @time        20:26
+ *  * @time        22:47
  *
  */
 
 
-$uuid = new UUID();
-
-class uuid extends Controller {
-
-    public static function create(): string
-    {
-        return \Ramsey\Uuid\Uuid::uuid7()->toString();
-    }
-
-}

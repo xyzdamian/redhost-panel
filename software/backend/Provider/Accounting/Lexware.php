@@ -15,3 +15,27 @@
  */
 
 
+use GuzzleHttp\Client;
+
+$lexware = new Lexware();
+
+class Lexware extends Controller {
+
+    public function getClient(): Client
+    {
+        $verify = filter_var(env('VERIFY_SSL', 'true'), FILTER_VALIDATE_BOOLEAN);
+
+        return new Client([
+            'base_uri'        => 'https://api.lexware.io/',
+            'allow_redirects' => false,
+            'timeout'         => 30,
+            'verify'          => $verify,
+            'headers'         => [
+                'Content-Type'  => 'application/json',
+                'Accept'        => 'application/json',
+                'Authorization' => 'Bearer '.env('LEXWARE_KEY'),
+            ],
+        ]);
+    }
+
+}
